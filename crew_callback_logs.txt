@@ -1,0 +1,27 @@
+-1----AgentFinish---------------------------------------
+Agent Name: Email Categorizer Agent
+AgentFinish Output: customer_feedback
+--------------------------------------------------
+-2----AgentFinish---------------------------------------
+Agent Name: Researcher Agent
+AgentFinish Output: • Information on the resort's policy for responding to customer feedback, such as a standard response template or guidelines for personalized responses.
+• Examples of responses to positive feedback that maintain a professional yet friendly tone.
+• Details on how to address the customer by name (e.g., John Doe) to make the response more personalized.
+• Information on whether the resort has a loyalty program or rewards system to offer the customer.
+• A list of potential next steps, such as inviting the customer to share their experience on social media or review platforms.
+--------------------------------------------------
+-3----AgentFinish---------------------------------------
+Agent Name: Email Writer Agent
+AgentFinish Output: Dear John,
+
+Thank you so much for taking the time to share your wonderful experience at our resort! We're thrilled to hear that our staff made your stay truly special. We're proud of our team for providing exceptional service, and we'll be sure to pass on your appreciation to them.
+
+We value your feedback and would love to invite you to share your experience with others. If you have a moment, we'd be grateful if you could share your review on our social media pages or review platforms. This helps us to continually improve and provide the best possible experience for our guests.
+
+As a valued customer, we'd like to offer you an exclusive loyalty program, which includes special discounts and perks on your future stays with us. We'll be in touch soon with more information on how to take advantage of this offer.
+
+Once again, thank you for your kind words and for choosing to stay with us. We look forward to welcoming you back to our resort in the future.
+
+Best regards,
+Sarah, Customer Service Manager
+--------------------------------------------------
