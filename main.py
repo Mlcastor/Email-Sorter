@@ -77,3 +77,75 @@ class EmailAgents:
             step_callback=lambda x: print_agent_output(x, "Email Writer Agent"),
         )
         
+
+class EmailTasks():
+    def categorize_email(self, email_content):
+        return Task(
+            description=f"""Conduct a comprehensive analysis of the email provided and categorize into \
+                one of the following categories:
+                price_equiry - used when someone is asking for the price of a product or service \
+                customer_complaint - used when someone is complaining about something \
+                product_enquiry - used when someone is asking for information about a product feature, benefit or service but not about pricing \
+                customer_feedback - used when someone is giving feedback about a product or service \
+                off_topic - used when the email is not related to any of the above categories \
+                
+                EMAIL CONTENT:\n\n {email_content} \n\n
+                Output a single category only.""",
+            output_file=f"email_category.txt",
+            agent=categorizer_agent
+        )
+    
+    def research_info_for_email(self, email_content):
+        return Task(
+            description=f"""Conduct a comprehensive analysis of the email provided and the category that the categorizer agent gave it and decide what information you need to search for for the email in a thoughtful and helpful way. 
+            if you DONT think a search will help just reply 'NO SEARCH NEEDED'
+            If you dont find any useful information in the search results, reply 'NO USEFUL RESEARCH FOUND'
+            otherwise reply with the info you found that is useful for the email writer to write a helpful response to the email
+            
+            EMAIL CONTENT:\n\n {email_content} \n\n
+            Only provide the info needed DONT write the email response""",
+            expected_output="""A set of bullet points of useful info for the email writer \
+            or clear instructions that no useful material was found""",
+            context = [categorize_email],
+            output_file=f"research_info.txt",
+            agent=researcher_agent
+        )
+    
+    def draft_email(self, email_content):
+        return Task(
+            description=f"""Conduct a comprehensive analysis of the email provided and the category that the categorizer agent gave it \
+            and the information that the researcher agent found to write a helpful response to the email in a thoughtful and friendly way. \
+            
+            Write a simple, polite and too the point email wich will respond to the customer's email. \
+            if useful use the info provided by the researcher agent to write the email. \
+
+            If no useful info was provided from the research specialist don't make up any information, don't try to guess. \
+            
+            EMAIL CONTENT:\n\n {email_content} \n\n
+            Only provide the email response""",
+            expected_output="""A well written email response to the customer that adress their issues and provide them with helpful information""",
+            context = [categorize_email, research_info_for_email],
+            output_file=f"email_response.txt",
+            agent=email_writer_agent
+        )
+
+EMAIL = """Hi there, \n
+I am emailing to say that I had a wonderful stay at your resort last week. \n
+
+I really appreaciate what your staff did. \n
+Thanks, \n
+John Doe"""
+
+# instanciate the agents
+agents = EmailAgents()
+tasks = EmailTasks()
+
+#Agents
+categorizer_agent = agents.make_categorizer_agent()
+researcher_agent = agents.make_researcher_agent()
+email_writer_agent = agents.make_email_writer_agent()
+
+#Tasks
+categorize_email = tasks.categorize_email(EMAIL)
+research_info_for_email = tasks.research_info_for_email(EMAIL)
+draft_email = tasks.draft_email(EMAIL)
